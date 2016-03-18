@@ -14,23 +14,26 @@ import java.net.URLEncoder;
  */
 public class Connector {
 
+    private static final int READ_TIMEOUT = 10000;
+    private static final int CONNECT_TIMEOUT = 150000;
+
     protected static String executeRequest(String request) throws DaoException {
 
         String response = "";
-        URL url = null;
+        URL url;
         BufferedReader bufferedReader = null;
 
         try {
             url = new URL(request);
-            /// Мусор
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(10000);
-            conn.setConnectTimeout(15000);
-            conn.setRequestMethod("GET");
-            conn.setDoInput(true);
-            conn.connect();
 
-            bufferedReader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setReadTimeout(READ_TIMEOUT);
+            connection.setConnectTimeout(CONNECT_TIMEOUT);
+            connection.setRequestMethod("GET");
+            connection.setDoInput(true);
+            connection.connect();
+
+            bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
 
             String line;
             while ((line = bufferedReader.readLine()) != null) {
@@ -39,15 +42,15 @@ public class Connector {
 
             return response;
         }
-        catch (Exception ex){
-            throw new DaoException(ex);
+        catch (IOException ex){
+            throw new DaoException("Connection exception: " + ex);
         } finally {
             try {
                 if (bufferedReader != null) {
                     bufferedReader.close();
                 }
             } catch (IOException ex) {
-                throw new DaoException(ex);
+                throw new DaoException("Buffered Reader can't be closed: " + ex);
             }
         }
 

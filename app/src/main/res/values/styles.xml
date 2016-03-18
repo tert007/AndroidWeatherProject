@@ -1,10 +1,12 @@
 <resources>
-    <style name="AppTheme" parent="Theme.AppCompat.Light">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:colorBackground">@color/colorBackground</item>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimaryDark">@color/status_bar_orange</item>
+        <item name="searchViewStyle">@style/AppSearchViewStyle</item>
     </style>
-
+    <style name="AppSearchViewStyle" parent="Widget.AppCompat.SearchView">
+        <item name="queryBackground">@android:color/transparent</item>
+        <item name="searchIcon">@drawable/search</item>
+        <item name="closeIcon">@drawable/common_full_open_on_phone</item>
+        <item name="android:imeActionId">6</item>
+    </style>
 </resources>

@@ -1,7 +1,10 @@
-package com.example.alexander.test2.dao;
+package com.example.alexander.test2.dao.weather;
 
 import com.example.alexander.test2.bean.Weather;
+import com.example.alexander.test2.dao.DaoException;
+
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,15 +14,15 @@ import java.util.List;
  */
 public class JSONWeatherParser {
 
-    private static Weather createWeather(JSONObject jsonObject) {
+    private static Weather createWeather(JSONObject jsonObject) throws DaoException {
         try {
             Weather weather = new Weather();
 
             double temperature = jsonObject.getJSONObject("temp").getDouble("day");
             weather.setTemperature(temperature);
 
-            //String weatherType = jsonObject.getJSONObject("weather").getString("description");
-            //
+            int weatherDescriptionId = jsonObject.getJSONArray("weather").getJSONObject(0).getInt("id");
+            weather.setWeatherDescriptionId(weatherDescriptionId);
 
             int humidity = jsonObject.getInt("humidity");
             weather.setHumidity(humidity);
@@ -31,14 +34,13 @@ public class JSONWeatherParser {
             weather.setUnixTime(date);
 
             return weather;
-        } catch (Exception ex){
-            return null;
+        } catch (JSONException ex){
+            throw new DaoException(ex);
         }
 
     }
 
-
-    public static List<Weather> createWeekForecast(String request)
+    public static List<Weather> createWeekForecast(String request) throws DaoException
     {
         try {
             List<Weather> weathers = new ArrayList<>(7); ///Const
@@ -51,14 +53,13 @@ public class JSONWeatherParser {
             }
 
             return weathers;
-        } catch (Exception ex)
-        {
-            return null;
+        } catch (JSONException ex) {
+            throw new DaoException(ex);
         }
 
     }
 
-    public static Weather createDayForecast(String request)
+    public static Weather createDayForecast(String request) throws DaoException
     {
         try {
             Weather weather = new Weather();
@@ -74,18 +75,15 @@ public class JSONWeatherParser {
             double windSpeed = jsonObject.getJSONObject("wind").getDouble("speed");
             weather.setWindSpeed(windSpeed);
 
-            String weatherType = jsonObject.getJSONArray("weather").getJSONObject(0).getString("description");
-            //
+            int weatherDescriptionId = jsonObject.getJSONArray("weather").getJSONObject(0).getInt("id");
+            weather.setWeatherDescriptionId(weatherDescriptionId);
 
             long date = jsonObject.getLong("dt");
             weather.setUnixTime(date);
 
             return weather;
-        } catch (Exception ex) {
-            return null;
+        } catch (JSONException ex) {
+           throw new DaoException(ex);
         }
-
-
     }
-
 }

@@ -2,6 +2,7 @@ package com.example.alexander.test2.bean;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Alexander on 28.02.2016.
@@ -9,18 +10,18 @@ import java.util.Date;
 public class Weather {
     private double temperature;
     private int humidity;
+    private int weatherDescriptionId;
     private double windSpeed;
-    private WeatherType weatherType;
     private long unixTime;
 
-
-    public WeatherType getWeatherType() {
-        return weatherType;
+    public int getWeatherDescriptionId() {
+        return weatherDescriptionId;
     }
 
-    public void setWeatherType(WeatherType weatherType) {
-        this.weatherType = weatherType;
+    public void setWeatherDescriptionId(int weatherDescriptionId) {
+        this.weatherDescriptionId = weatherDescriptionId;
     }
+
 
     public void setWindSpeed(double windSpeed) {
         this.windSpeed = windSpeed;
@@ -43,9 +44,12 @@ public class Weather {
         return unixTime;
     }
 
-    public String getDate() { /////////////////////////U
+    public String getDate() {
         Date date = new Date(unixTime * 1000L);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+
+        Locale locale = new Locale("ru");
+
+        SimpleDateFormat sdf = new SimpleDateFormat("E d MMM", locale);
 
         return sdf.format(date);
     }
@@ -58,8 +62,16 @@ public class Weather {
         return temperature;
     }
 
+    public String getTemperatureByCelsiusByString() {
+        return String.format(Math.round(temperature) + "°C");
+    }
+
     public double getTemperatureByFahrenheit() {
         return temperature * 9 / 5 + 32;
+    }
+
+    public String getTemperatureByFahrenheitByString() {
+        return String.format(Math.round(getTemperatureByFahrenheit()) + "°F");
     }
 
     public double getWindSpeed() {

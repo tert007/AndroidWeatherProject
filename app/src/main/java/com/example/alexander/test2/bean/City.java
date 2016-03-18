@@ -11,7 +11,8 @@ public class City {
     private double latitude;
     private double longitude;
 
-    //private List<Weather> weathers;
+    private List<Weather> weathers;
+    private long unixUpdateTime;
 
     public City(String name, String country ,double latitude, double longitude) {
         this.name = name;
@@ -36,13 +37,21 @@ public class City {
         return longitude;
     }
 
-    //public void setForecast(List<Weather> weathers)
-    {
-   //     this.weathers = weathers;
+    public void setForecast(List<Weather> weathers) {
+        this.weathers = weathers;
     }
 
-    //public List<Weather> getForecast() {
-       // return weathers;
-    //}
+    public List<Weather> getForecast() {
+        return weathers;
+    }
+
+
+    public long getUnixUpdateTime() {
+        return unixUpdateTime;
+    }
+
+    public void setUnixUpdateTime(long unixUpdateTime) {
+        this.unixUpdateTime = unixUpdateTime;
+    }
 
 }

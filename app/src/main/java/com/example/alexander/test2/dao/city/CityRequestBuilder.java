@@ -1,4 +1,7 @@
-package com.example.alexander.test2.dao;
+package com.example.alexander.test2.dao.city;
+
+import com.example.alexander.test2.dao.Connector;
+import com.example.alexander.test2.dao.DaoException;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -15,21 +18,16 @@ public class CityRequestBuilder extends Connector {
     public static String createFindCityByNameRequest(String cityName) throws DaoException {
         try {
             String request =  findCityUrl + URLEncoder.encode(cityName, "utf-8") + settingsPartOfUrl;
+
             return executeRequest(request);
         } catch (UnsupportedEncodingException ex){
-            throw new DaoException(ex); //
-        } catch (DaoException ex) {
-            throw ex;
+            throw new DaoException(ex);
         }
     }
 
     public static String createFindPlaceByGeolocationRequest(double latitude, double longitude) throws DaoException {
         String request = findLocationUrl + latitude + "," + longitude + settingsPartOfUrl;
 
-        try {
-            return executeRequest(request);
-        } catch (DaoException ex) {
-            throw ex;
-        }
+        return executeRequest(request);
     }
 }

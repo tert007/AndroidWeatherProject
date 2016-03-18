@@ -1,4 +1,7 @@
-package com.example.alexander.test2.dao;
+package com.example.alexander.test2.dao.weather;
+
+import com.example.alexander.test2.dao.Connector;
+import com.example.alexander.test2.dao.DaoException;
 
 /**
  * Created by Alexander on 21.02.2016.
@@ -11,20 +14,12 @@ public class WeatherRequestBuilder extends Connector {
     public static String createDayForecastWeatherRequest(double latitude, double longitude) throws DaoException {
         String request = url + "weather" + "?lat=" + latitude + "&lon=" + longitude + "&units=metric&APPID=" + apiKey;
 
-        try {
-            return executeRequest(request);
-        } catch (DaoException ex) {
-            throw ex;
-        }
+        return executeRequest(request);
     }
 
     public static String createWeekForecastWeatherRequest(double latitude, double longitude) throws DaoException {
         String request = url + "forecast/daily" + "?lat=" + latitude + "&lon=" + longitude + "&units=metric&cnt=7&APPID=" + apiKey;
 
-        try {
-            return Connector.executeRequest(request);
-        } catch (DaoException ex) {
-            throw ex;
-        }
+        return Connector.executeRequest(request);
     }
 }
