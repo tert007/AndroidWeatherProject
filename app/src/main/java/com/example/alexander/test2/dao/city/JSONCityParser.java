@@ -19,8 +19,20 @@ public class JSONCityParser {
         try {
             JSONArray addressComponents = jsonObject.getJSONArray("address_components");
 
-            String cityName = addressComponents.getJSONObject(addressComponents.length() - 2).getString("long_name");
-            String country = addressComponents.getJSONObject(addressComponents.length() - 1).getString("long_name");
+            String cityName = "Хуй";
+            String country = "ХУЙ";
+
+            for (int i = 0; i < addressComponents.length(); i++) {
+                JSONArray addressTypeArray = addressComponents.getJSONObject(i).getJSONArray("types");
+                if (addressTypeArray.get(0).equals("locality"))   {
+                    cityName = addressComponents.getJSONObject(i).getString("long_name");
+                }
+                if (addressTypeArray.get(0).equals("country"))   {
+                    country = addressComponents.getJSONObject(i).getString("long_name");
+                }
+            }
+            //String cityName = addressComponents.getJSONObject(addressComponents.length() - 2).getString("long_name");
+            //String country = addressComponents.getJSONObject(addressComponents.length() - 1).getString("long_name");
             double latitude = jsonObject.getJSONObject("geometry").getJSONObject("location").getDouble("lat");
             double longitude = jsonObject.getJSONObject("geometry").getJSONObject("location").getDouble("lng");
 
@@ -33,6 +45,10 @@ public class JSONCityParser {
     public static List<City> findCityByName(String request) throws DaoException {
         try {
             JSONObject jsonObject = new JSONObject(request);
+
+            if (jsonObject.getString("status").equals("ZERO_RESULTS")) {
+                return null;
+            }
 
             if (!jsonObject.getString("status").equals("OK")) {
                 throw new DaoException("Google JSON rofl");
@@ -55,6 +71,10 @@ public class JSONCityParser {
     public static City findCityByGeolocation(String request) throws DaoException {
         try {
             JSONObject jsonObject = new JSONObject(request);
+
+            if (jsonObject.getString("status").equals("ZERO_RESULTS")) {
+                return null;
+            }
 
             if (!jsonObject.getString("status").equals("OK")) {
                 throw new DaoException("Google JSON rofl");

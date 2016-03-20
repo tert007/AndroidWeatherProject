@@ -2,6 +2,8 @@
     <string name="app_name">Погода</string>
     <string name="place_settings">Местоположение</string>
     <string name="add_new_place">Добавить новое место</string>
+    <string name="search">Поиск</string>
+
     <string name="remove">Удалить</string>
     <string name="settings">Настройки</string>
 </resources>

@@ -15,12 +15,15 @@ import android.widget.Toast;
 import com.example.alexander.test2.R;
 import com.example.alexander.test2.bean.*;
 import com.example.alexander.test2.dao.*;
+import com.example.alexander.test2.dao.file.FileDao;
 import com.example.alexander.test2.service.AsyncTaskResponse;
 import com.example.alexander.test2.service.ConnectionTracker;
 import com.example.alexander.test2.service.ForecastAsyncTask;
 import com.example.alexander.test2.view.adapter.ForecastListViewAdapter;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, AsyncTaskResponse {
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity implements AsyncTaskResponse {
 
     MenuItem settingsMenuItem;
     TextView cityNameLabel;
@@ -58,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         countryNameLabel = (TextView) findViewById(R.id.countryNameLabel);
         degreesLabel = (TextView) findViewById(R.id.degreesLabel);
         weatherDescriptionLabel = (TextView) findViewById(R.id.weatherDescriptionLabel);
-        settingsMenuItem = (MenuItem) findViewById(R.id.action_settings);
+        settingsMenuItem = (MenuItem) findViewById(R.id.place_settings);
 
         listView = (ListView) findViewById(R.id.weekWeatherList);
 
@@ -88,13 +91,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-
-        }
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
@@ -109,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void asyncTaskFinish(City city) {
-        if (city != null /*&& weather != null*/) {
+        if (city != null) {
 
             ForecastListViewAdapter listViewAdapter = new ForecastListViewAdapter(getApplicationContext(), R.layout.weather_list_item, city.getForecast());
             listView.setAdapter(listViewAdapter);
@@ -117,6 +113,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             WeatherDescriptionHelper weatherDescriptionHelper = new WeatherDescriptionHelper();
 
             Weather weather = city.getForecast().get(0);
+
+            ArrayList<City> l = new ArrayList<>();
+            l.add(city);
+
+            try{
+                FileDao.saveCities(getApplicationContext(), l);
+                City a = FileDao.loadCities(getApplicationContext()).get(0);
+                Toast toast = Toast.makeText(getApplicationContext(), a.getCountry(), Toast.LENGTH_SHORT);
+                toast.show();
+            } catch (DaoException ex) {
+                Toast t = Toast.makeText(getApplicationContext(), ex.getMessage(), Toast.LENGTH_LONG);
+                t.show();
+            }
 
             cityNameLabel.setText(city.getName());
             countryNameLabel.setText(city.getCountry());

@@ -6,7 +6,7 @@
     <style name="AppSearchViewStyle" parent="Widget.AppCompat.SearchView">
         <item name="queryBackground">@android:color/transparent</item>
         <item name="searchIcon">@drawable/search</item>
-        <item name="closeIcon">@drawable/common_full_open_on_phone</item>
+        <item name="android:maxWidth">10000dp</item>
         <item name="android:imeActionId">6</item>
     </style>
 </resources>
