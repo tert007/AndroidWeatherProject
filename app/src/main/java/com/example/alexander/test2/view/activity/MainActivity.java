@@ -19,9 +19,9 @@ import com.example.alexander.test2.R;
 import com.example.alexander.test2.bean.*;
 import com.example.alexander.test2.dao.DaoException;
 import com.example.alexander.test2.dao.file.FileDao;
-import com.example.alexander.test2.service.ConnectionTracker;
+import com.example.alexander.test2.service.ConnectionTracker1;
 import com.example.alexander.test2.service.CreateCityByLocationAsyncTaskResponse;
-import com.example.alexander.test2.service.GeolocationTracker;
+import com.example.alexander.test2.service.GeolocationTracker1;
 import com.example.alexander.test2.service.CreateCityByLocationAsyncTask;
 import com.example.alexander.test2.service.UpdateForecastAsyncTask;
 import com.example.alexander.test2.service.UpdateForecastAsyncTaskResponse;
@@ -42,8 +42,8 @@ public class MainActivity extends AppCompatActivity implements CreateCityByLocat
     SwipeRefreshLayout firstRefreshLayout;
     SwipeRefreshLayout secondRefreshLayout;
 
-    GeolocationTracker geolocationTracker;
-    ConnectionTracker connectionTracker;
+    GeolocationTracker1 geolocationTracker1;
+    ConnectionTracker1 connectionTracker1;
 
     CreateCityByLocationAsyncTask createCityByLocationAsyncTask;
     UpdateForecastAsyncTask updateForecastAsyncTask;
@@ -90,8 +90,8 @@ public class MainActivity extends AppCompatActivity implements CreateCityByLocat
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        geolocationTracker = new GeolocationTracker(getApplicationContext());
-        connectionTracker = new ConnectionTracker(getApplicationContext());
+        geolocationTracker1 = new GeolocationTracker1(getApplicationContext());
+        connectionTracker1 = new ConnectionTracker1(getApplicationContext());
 
         loadData();
     }
@@ -101,11 +101,11 @@ public class MainActivity extends AppCompatActivity implements CreateCityByLocat
         Boolean useCurrentPlace = preferences.getBoolean(SWITCH_SETTINGS_FILE_PATH, true);
 
         if (useCurrentPlace){
-            if (connectionTracker.canConnect()){
+            if (connectionTracker1.canConnect()){
                 createCityByLocationAsyncTask = new CreateCityByLocationAsyncTask();
                 createCityByLocationAsyncTask.delegate = this;
 
-                createCityByLocationAsyncTask.execute(geolocationTracker.getLatitude(), geolocationTracker.getLongitude());
+                createCityByLocationAsyncTask.execute(geolocationTracker1.getLatitude(), geolocationTracker1.getLongitude());
             } else {
                 try {
                     City city = FileDao.loadTempCity(getApplicationContext());
@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements CreateCityByLocat
                 City city = FileDao.loadFavoriteCity(getApplicationContext());
 
                 if (city != null) {
-                    if (connectionTracker.canConnect()){
+                    if (connectionTracker1.canConnect()){
                         updateForecastAsyncTask = new UpdateForecastAsyncTask();
                         updateForecastAsyncTask.delegate = this;
 
@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements CreateCityByLocat
     @Override
     public void onRefresh() {
         firstRefreshLayout.setRefreshing(false);
-        if (connectionTracker.canConnect()) {
+        if (connectionTracker1.canConnect()) {
             updateForecastAsyncTask = new UpdateForecastAsyncTask();
             updateForecastAsyncTask.delegate = this;
 
