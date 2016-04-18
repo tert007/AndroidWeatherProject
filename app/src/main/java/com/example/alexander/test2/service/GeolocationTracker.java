@@ -16,7 +16,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.content.ContextCompat;
 
-public class GeolocationTracker1 implements LocationListener{
+public class GeolocationTracker implements LocationListener{
 
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1000;
     private static final long MIN_TIME_BETWEEN_UPDATES = 1000 * 60 * 30; // 30 minut
@@ -27,7 +27,7 @@ public class GeolocationTracker1 implements LocationListener{
     private double latitude;
     private double longitude;
 
-    public GeolocationTracker1(Context context){
+    public GeolocationTracker(Context context){
 
         if (Build.VERSION.SDK_INT >= 23){
             if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
