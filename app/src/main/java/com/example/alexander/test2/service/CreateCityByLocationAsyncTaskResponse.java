@@ -5,6 +5,6 @@ import com.example.alexander.test2.bean.City;
 /**
  * Created by Alexander on 11.03.2016.
  */
-public interface AsyncTaskResponse {
-    void asyncTaskFinish(City city);
+public interface CreateCityByLocationAsyncTaskResponse {
+    void createCityByLocationAsyncTaskFinish(City city);
 }

@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@+id/favorite_city_item"
         android:gravity="center"
+        android:textColor="@color/text_color"
         android:textSize="24sp"/>
 
     <TextView
@@ -20,11 +21,12 @@
         android:layout_below="@id/city_name_item"
         android:layout_toLeftOf="@+id/favorite_city_item"
         android:gravity="center"
+        android:textColor="@color/text_color"
         android:textSize="12sp"/>
 
     <ImageView
         android:id="@+id/favorite_city_item"
-        android:src="@drawable/favorite"
+        android:src="@drawable/selector"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_toLeftOf="@+id/remove_city_item"/>

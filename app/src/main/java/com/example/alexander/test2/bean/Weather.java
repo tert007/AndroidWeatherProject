@@ -14,6 +14,7 @@ public class Weather {
     private double windSpeed;
     private long unixTime;
 
+
     public int getWeatherDescriptionId() {
         return weatherDescriptionId;
     }
@@ -76,5 +77,36 @@ public class Weather {
 
     public double getWindSpeed() {
         return windSpeed;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object == null)
+            return false;
+
+        if (this == object)
+            return true;
+
+        if (!(object instanceof Weather))
+            return false;
+
+        Weather weather = (Weather)object;
+
+        if (this.getHumidity() != weather.getHumidity())
+            return false;
+
+        if (this.getWindSpeed() != weather.getWindSpeed())
+            return false;
+
+        if (this.getUnixTime() != weather.getUnixTime())
+            return false;
+
+        if (this.getWeatherDescriptionId() != weather.getWeatherDescriptionId())
+            return false;
+
+        if (this.getTemperatureByCelsius() != weather.getTemperatureByCelsius())
+            return false;
+
+        return true;
     }
 }

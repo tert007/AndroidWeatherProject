@@ -19,8 +19,8 @@ public class JSONCityParser {
         try {
             JSONArray addressComponents = jsonObject.getJSONArray("address_components");
 
-            String cityName = "Хуй";
-            String country = "ХУЙ";
+            String cityName = null;
+            String country = null;
 
             for (int i = 0; i < addressComponents.length(); i++) {
                 JSONArray addressTypeArray = addressComponents.getJSONObject(i).getJSONArray("types");
@@ -31,8 +31,10 @@ public class JSONCityParser {
                     country = addressComponents.getJSONObject(i).getString("long_name");
                 }
             }
-            //String cityName = addressComponents.getJSONObject(addressComponents.length() - 2).getString("long_name");
-            //String country = addressComponents.getJSONObject(addressComponents.length() - 1).getString("long_name");
+
+            if (country == null || cityName == null)
+                return null;
+
             double latitude = jsonObject.getJSONObject("geometry").getJSONObject("location").getDouble("lat");
             double longitude = jsonObject.getJSONObject("geometry").getJSONObject("location").getDouble("lng");
 
@@ -59,7 +61,10 @@ public class JSONCityParser {
             List<City> cities = new ArrayList<>();
 
             for (int i = 0; i < results.length(); i++){
-                cities.add(createCity(results.getJSONObject(i)));
+                City city = createCity(results.getJSONObject(i));
+                if (city != null){
+                    cities.add(city);
+                }
             }
 
             return cities;

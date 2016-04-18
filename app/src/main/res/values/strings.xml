@@ -6,4 +6,6 @@
 
     <string name="remove">Удалить</string>
     <string name="settings">Настройки</string>
+
+    <string name="switch_text">Использовать текущее местоположение</string>
 </resources>

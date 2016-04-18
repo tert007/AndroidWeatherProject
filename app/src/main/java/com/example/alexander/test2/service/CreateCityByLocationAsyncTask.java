@@ -15,9 +15,9 @@ import java.util.List;
 /**
  * Created by Alexander on 11.03.2016.
  */
-public class ForecastAsyncTask extends AsyncTask<Double, Void, City> {
+public class CreateCityByLocationAsyncTask extends AsyncTask<Double, Void, City> {
 
-    public AsyncTaskResponse delegate = null;
+    public CreateCityByLocationAsyncTaskResponse delegate = null;
 
     private List<Weather> weathers;
     private City city;
@@ -29,7 +29,7 @@ public class ForecastAsyncTask extends AsyncTask<Double, Void, City> {
             city =  JSONCityParser.findCityByGeolocation(findCityRequest);
 
             if (city == null) {
-                return null; //
+                return null;
             }
 
             String findWeekForecastRequest = WeatherRequestBuilder.createWeekForecastWeatherRequest(params[0], params[1]);
@@ -49,6 +49,6 @@ public class ForecastAsyncTask extends AsyncTask<Double, Void, City> {
 
     @Override
     protected void onPostExecute(City city) {
-        delegate.asyncTaskFinish(city);
+        delegate.createCityByLocationAsyncTaskFinish(city);
     }
 }

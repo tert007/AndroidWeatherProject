@@ -1,4 +1,4 @@
-package com.example.alexander.test2.dao;
+package com.example.alexander.test2.bean;
 
 import java.util.ArrayList;
 import java.util.List;

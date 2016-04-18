@@ -5,8 +5,8 @@
 
     <item
         android:id="@+id/place_settings"
-        android:title="@string/place_settings"
-        android:icon="@drawable/place"
+        android:title="@string/settings"
+        android:icon="@drawable/settings"
         yourapp:showAsAction="always" />
 
 </menu>

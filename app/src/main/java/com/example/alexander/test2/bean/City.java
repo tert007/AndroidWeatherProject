@@ -24,6 +24,46 @@ public class City {
     public String getName() {
         return name;    }
 
+    @Override
+    public boolean equals(Object object) {
+        if (object == null)
+            return false;
+
+        if (this == object)
+            return true;
+
+        if (!(object instanceof City))
+            return false;
+
+        City city = (City)object;
+
+        if (!this.getName().equals(city.getName()))
+            return false;
+
+        if (!this.getCountry().equals(city.getCountry()))
+            return false;
+
+        if (this.getLatitude() != city.getLatitude() )
+            return false;
+
+        if (this.getLongitude() != city.getLongitude() )
+            return false;
+
+        if (this.getUnixUpdateTime() != city.getUnixUpdateTime() )
+            return false;
+
+        int weatherCount = this.getForecast().size();
+
+        if (city.getForecast().size() != weatherCount)
+            return false;
+
+        for (int i = 0; i < weatherCount; i++){
+            if (!this.getForecast().get(i).equals(city.getForecast().get(i)))
+                return false;
+        }
+
+        return true;
+    }
 
     public String getCountry() {
         return country;
@@ -44,7 +84,6 @@ public class City {
     public List<Weather> getForecast() {
         return weathers;
     }
-
 
     public long getUnixUpdateTime() {
         return unixUpdateTime;

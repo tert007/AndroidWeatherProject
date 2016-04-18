@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="toolbar_orange">#ffb135</color>
-    <color name="status_bar_orange">#ff9538</color>
+    <color name="color_primary_dark">#33691E</color>
+    <color name="color_primary">#8BC34A</color>
+    <color name="text_color_primary">#CCFF90</color>
+    <color name="window_background">#F1F8E9</color>
+    <color name="text_color">#000000</color>
+
+    <color name="update_color1">#b3d466</color>
+    <color name="update_color2">#f4b421</color>
+
 </resources>

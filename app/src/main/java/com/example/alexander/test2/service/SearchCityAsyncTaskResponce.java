@@ -7,6 +7,6 @@ import java.util.List;
 /**
  * Created by Alexander on 19.03.2016.
  */
-public interface SearchAsyncTaskResponce {
-    void asyncTaskFinish(List<City> cities);
+public interface SearchCityAsyncTaskResponce {
+    void searchCityAsyncTaskFinish(List<City> cities);
 }

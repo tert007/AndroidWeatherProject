@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.example.alexander.test2.R;
 import com.example.alexander.test2.bean.Weather;
-import com.example.alexander.test2.dao.WeatherDescriptionHelper;
+import com.example.alexander.test2.bean.WeatherDescriptionHelper;
 
 import java.util.List;
 
