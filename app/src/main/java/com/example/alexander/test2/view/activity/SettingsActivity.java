@@ -21,7 +21,7 @@ import com.example.alexander.test2.R;
 import com.example.alexander.test2.bean.City;
 import com.example.alexander.test2.dao.DaoException;
 import com.example.alexander.test2.dao.file.FileDao;
-import com.example.alexander.test2.service.ConnectionTracker1;
+import com.example.alexander.test2.service.ConnectionTracker;
 import com.example.alexander.test2.service.SearchCityAsyncTaskResponce;
 import com.example.alexander.test2.service.SearchCitiesAsyncTask;
 import com.example.alexander.test2.service.UpdateForecastAsyncTask;
@@ -56,7 +56,7 @@ public class SettingsActivity extends AppCompatActivity implements SearchView.On
     List<City> searchCity;
     City favoriteCity;
 
-    ConnectionTracker1 connectionTracker;
+    ConnectionTracker connectionTracker;
 
     SearchCityListViewAdapter searchCityAdapter;
     SavedCityListViewAdapter savedCityAdapter;
@@ -84,7 +84,7 @@ public class SettingsActivity extends AppCompatActivity implements SearchView.On
         switchCompat = (SwitchCompat) findViewById(R.id.place_switch);
         switchCompat.setOnCheckedChangeListener(this);
 
-        connectionTracker = new ConnectionTracker1(getApplicationContext());
+        connectionTracker = new ConnectionTracker(getApplicationContext());
 
         try {
             savedCity = FileDao.loadCities(getApplicationContext());

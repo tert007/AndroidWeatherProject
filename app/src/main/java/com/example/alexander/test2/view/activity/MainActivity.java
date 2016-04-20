@@ -22,7 +22,7 @@ import com.example.alexander.test2.R;
 import com.example.alexander.test2.bean.*;
 import com.example.alexander.test2.dao.DaoException;
 import com.example.alexander.test2.dao.file.FileDao;
-import com.example.alexander.test2.service.ConnectionTracker1;
+import com.example.alexander.test2.service.ConnectionTracker;
 import com.example.alexander.test2.service.CreateCityByLocationAsyncTaskResponse;
 import com.example.alexander.test2.service.GeolocationTracker;
 import com.example.alexander.test2.service.CreateCityByLocationAsyncTask;
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements CreateCityByLocat
     SwipeRefreshLayout secondRefreshLayout;
 
     GeolocationTracker geolocationTracker;
-    ConnectionTracker1 connectionTracker;
+    ConnectionTracker connectionTracker;
 
     CreateCityByLocationAsyncTask createCityByLocationAsyncTask;
     UpdateForecastAsyncTask updateForecastAsyncTask;
@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements CreateCityByLocat
         setSupportActionBar(toolbar);
 
         geolocationTracker = new GeolocationTracker(getApplicationContext());
-        connectionTracker = new ConnectionTracker1(getApplicationContext());
+        connectionTracker = new ConnectionTracker(getApplicationContext());
 
         loadData();
     }
