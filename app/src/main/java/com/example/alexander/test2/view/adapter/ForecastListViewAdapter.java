@@ -63,7 +63,7 @@ public class ForecastListViewAdapter extends ArrayAdapter<Weather> {
             }
 
             if (weatherIcon != null) {
-                weatherIcon.setImageResource(R.drawable.sun);
+                weatherIcon.setImageResource(helper.getWeatherIcon(weather.getWeatherDescriptionId()));
             }
         }
 

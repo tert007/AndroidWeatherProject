@@ -198,6 +198,7 @@ public class MainActivity extends AppCompatActivity implements CreateCityByLocat
 
             degreesLabel.setText(weather.getTemperatureByCelsiusByString());
             weatherDescriptionLabel.setText(weatherDescriptionHelper.getWeatherDescription(weather.getWeatherDescriptionId()));
+            weatherIcon.setImageResource(weatherDescriptionHelper.getWeatherIcon(weather.getWeatherDescriptionId()));
 
             String humidity = getString(R.string.humidity) + ' ' +  weather.getHumidity() + '%';
             String windSpeed = getString(R.string.wind_speed) + ' ' +  weather.getWindSpeed() + ' ' + getString(R.string.metric_speed_scale);
