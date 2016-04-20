@@ -6,7 +6,8 @@
     <color name="window_background">#F1F8E9</color>
     <color name="text_color">#000000</color>
 
-    <color name="update_color1">#b3d466</color>
-    <color name="update_color2">#f4b421</color>
+    <color name="update_color">#f4b421</color>
+
+    <color name="pressed_color">#61da83</color>
 
 </resources>

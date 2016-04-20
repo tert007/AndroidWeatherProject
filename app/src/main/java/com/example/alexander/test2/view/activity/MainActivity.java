@@ -1,5 +1,6 @@
 package com.example.alexander.test2.view.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -8,18 +9,20 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.alexander.test2.R;
 import com.example.alexander.test2.bean.*;
 import com.example.alexander.test2.dao.DaoException;
 import com.example.alexander.test2.dao.file.FileDao;
-import com.example.alexander.test2.service.ConnectionTracker;
+import com.example.alexander.test2.service.ConnectionTracker1;
 import com.example.alexander.test2.service.CreateCityByLocationAsyncTaskResponse;
 import com.example.alexander.test2.service.GeolocationTracker;
 import com.example.alexander.test2.service.CreateCityByLocationAsyncTask;
@@ -27,23 +30,31 @@ import com.example.alexander.test2.service.UpdateForecastAsyncTask;
 import com.example.alexander.test2.service.UpdateForecastAsyncTaskResponse;
 import com.example.alexander.test2.view.adapter.ForecastListViewAdapter;
 
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity implements CreateCityByLocationAsyncTaskResponse,
         SwipeRefreshLayout.OnRefreshListener, UpdateForecastAsyncTaskResponse {
 
     final String SWITCH_SETTINGS_FILE_PATH = "switch_status";
 
     MenuItem settingsMenuItem;
+
     TextView cityNameLabel;
     TextView countryNameLabel;
     TextView degreesLabel;
     TextView weatherDescriptionLabel;
+    TextView humidityLabel;
+    TextView windSpeedLabel;
+    TextView updateTimeLabel;
+    ImageView weatherIcon;
+
     ListView listView;
 
     SwipeRefreshLayout firstRefreshLayout;
     SwipeRefreshLayout secondRefreshLayout;
 
     GeolocationTracker geolocationTracker;
-    ConnectionTracker connectionTracker;
+    ConnectionTracker1 connectionTracker;
 
     CreateCityByLocationAsyncTask createCityByLocationAsyncTask;
     UpdateForecastAsyncTask updateForecastAsyncTask;
@@ -61,28 +72,33 @@ public class MainActivity extends AppCompatActivity implements CreateCityByLocat
         TabHost.TabSpec tabSpec;
 
         tabSpec = tabHost.newTabSpec("tag1");
-        tabSpec.setIndicator("Погода");
+        tabSpec.setIndicator(getTabIndicator(getApplicationContext(), R.string.weather));
         tabSpec.setContent(R.id.tab1);
         tabHost.addTab(tabSpec);
 
         tabSpec = tabHost.newTabSpec("tag2");
-        tabSpec.setIndicator("Недельный прогноз");
+        tabSpec.setIndicator(getTabIndicator(getApplicationContext(), R.string.weather_week_forecast));
         tabSpec.setContent(R.id.tab2);
         tabHost.addTab(tabSpec);
 
         tabHost.setCurrentTabByTag("tag1");
 
         firstRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.tab1_refresher);
-        firstRefreshLayout.setColorSchemeResources(R.color.update_color1, R.color.update_color2);
+        firstRefreshLayout.setColorSchemeResources(R.color.update_color);
         firstRefreshLayout.setOnRefreshListener(this);
 
         secondRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.tab2_refresher);
+        secondRefreshLayout.setColorSchemeResources(R.color.update_color);
         secondRefreshLayout.setOnRefreshListener(this);
 
         cityNameLabel = (TextView) findViewById(R.id.cityNameLabel);
         countryNameLabel = (TextView) findViewById(R.id.countryNameLabel);
         degreesLabel = (TextView) findViewById(R.id.degreesLabel);
         weatherDescriptionLabel = (TextView) findViewById(R.id.weatherDescriptionLabel);
+        humidityLabel = (TextView) findViewById(R.id.humidityLabel);
+        windSpeedLabel = (TextView) findViewById(R.id.windSpeedLabel);
+        weatherIcon = (ImageView) findViewById(R.id.weatherIcon);
+        updateTimeLabel = (TextView) findViewById(R.id.updateTimeLabel);
         settingsMenuItem = (MenuItem) findViewById(R.id.place_settings);
 
         listView = (ListView) findViewById(R.id.weekWeatherList);
@@ -91,9 +107,17 @@ public class MainActivity extends AppCompatActivity implements CreateCityByLocat
         setSupportActionBar(toolbar);
 
         geolocationTracker = new GeolocationTracker(getApplicationContext());
-        connectionTracker = new ConnectionTracker(getApplicationContext());
+        connectionTracker = new ConnectionTracker1(getApplicationContext());
 
         loadData();
+    }
+
+    private View getTabIndicator(Context context, int title) {
+        View view = LayoutInflater.from(context).inflate(R.layout.tab, null);
+
+        TextView tabTitle = (TextView) view.findViewById(R.id.tab_title);
+        tabTitle.setText(title);
+        return view;
     }
 
     private void loadData(){
@@ -113,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements CreateCityByLocat
                     if (city != null){
                         updateView(city);
                     } else {
-                        Snackbar.make(findViewById(R.id.tabHost), "Для первого использования необходимо подключение к интернету", Snackbar.LENGTH_INDEFINITE).show();
+                        Snackbar.make(findViewById(R.id.tabHost), getString(R.string.first_time_city_not_selected), Snackbar.LENGTH_LONG).show();
                     }
 
                 } catch (DaoException e){
@@ -134,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements CreateCityByLocat
                         updateView(city);
                     }
                 } else {
-                    Snackbar.make(findViewById(R.id.tabHost), "Не выбран город", Snackbar.LENGTH_INDEFINITE).show();
+                    Snackbar.make(findViewById(R.id.tabHost), getString(R.string.city_not_selected), Snackbar.LENGTH_INDEFINITE).show();
                 }
             } catch (DaoException e){
                 Snackbar.make(findViewById(R.id.tabHost), e.getMessage(), Snackbar.LENGTH_LONG).show();
@@ -163,7 +187,6 @@ public class MainActivity extends AppCompatActivity implements CreateCityByLocat
 
     public void updateView(City city){
         if (city != null) {
-
             ForecastListViewAdapter listViewAdapter = new ForecastListViewAdapter(getApplicationContext(), R.layout.weather_list_item, city.getForecast());
             listView.setAdapter(listViewAdapter);
 
@@ -173,17 +196,23 @@ public class MainActivity extends AppCompatActivity implements CreateCityByLocat
             cityNameLabel.setText(city.getName());
             countryNameLabel.setText(city.getCountry());
 
-            degreesLabel.setText(String.valueOf(weather.getTemperatureByCelsiusByString()));
+            degreesLabel.setText(weather.getTemperatureByCelsiusByString());
             weatherDescriptionLabel.setText(weatherDescriptionHelper.getWeatherDescription(weather.getWeatherDescriptionId()));
 
-        } else {
-            Toast toast = Toast.makeText(getApplicationContext(), "city с прогнозом не вернулся :(", Toast.LENGTH_SHORT);
-            toast.show();
+            String humidity = getString(R.string.humidity) + ' ' +  weather.getHumidity() + '%';
+            String windSpeed = getString(R.string.wind_speed) + ' ' +  weather.getWindSpeed() + ' ' + getString(R.string.metric_speed_scale);
+            String updateTime = getString(R.string.update_time) + ' ' +  city.getUpdateTimeByString();
+
+            humidityLabel.setText(humidity);
+            windSpeedLabel.setText(windSpeed);
+
+            updateTimeLabel.setText(updateTime);
         }
     }
 
     @Override
     public void createCityByLocationAsyncTaskFinish(City city) {
+        city.setUpdateTime((new Date().getTime()));
         this.city = city;
         updateView(city);
     }
@@ -192,18 +221,27 @@ public class MainActivity extends AppCompatActivity implements CreateCityByLocat
     @Override
     public void onRefresh() {
         firstRefreshLayout.setRefreshing(false);
+        secondRefreshLayout.setRefreshing(false);
         if (connectionTracker.canConnect()) {
-            updateForecastAsyncTask = new UpdateForecastAsyncTask();
-            updateForecastAsyncTask.delegate = this;
+            if (city == null) {
+                createCityByLocationAsyncTask = new CreateCityByLocationAsyncTask();
+                createCityByLocationAsyncTask.delegate = this;
 
-            updateForecastAsyncTask.execute(city);
+                createCityByLocationAsyncTask.execute(geolocationTracker.getLatitude(), geolocationTracker.getLongitude());
+            } else {
+                updateForecastAsyncTask = new UpdateForecastAsyncTask();
+                updateForecastAsyncTask.delegate = this;
+
+                updateForecastAsyncTask.execute(city);
+            }
         } else {
-            Snackbar.make(findViewById(R.id.tabHost), "Нет подключения к интернету", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(findViewById(R.id.tabHost), getString(R.string.internet_connection_not_found), Snackbar.LENGTH_LONG).show();
         }
     }
 
     @Override
     public void updateForecastAsyncTaskFinish(City city) {
+        city.setUpdateTime((new Date().getTime()));
         this.city = city;
         updateView(city);
     }

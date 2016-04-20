@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.alexander.test2.R;
@@ -43,8 +44,11 @@ public class ForecastListViewAdapter extends ArrayAdapter<Weather> {
         Weather weather = getItem(position);
 
         if (weather != null) {
-            TextView weatherDateLabel = (TextView) view.findViewById(R.id.firstLine);
-            TextView weatherDegreesLabel = (TextView) view.findViewById(R.id.secondLine);
+            TextView weatherDateLabel = (TextView) view.findViewById(R.id.week_forecast_item_date);
+            TextView weatherDegreesLabel = (TextView) view.findViewById(R.id.week_forecast_item_temperature);
+
+            TextView weatherDescriptionLabel = (TextView) view.findViewById(R.id.week_forecast_item_description);
+            ImageView weatherIcon = (ImageView) view.findViewById(R.id.week_forecast_item_icon);
 
             if (weatherDateLabel != null) {
                 weatherDateLabel.setText(weather.getDate());
@@ -52,6 +56,14 @@ public class ForecastListViewAdapter extends ArrayAdapter<Weather> {
 
             if (weatherDegreesLabel != null) {
                 weatherDegreesLabel.setText(weather.getTemperatureByCelsiusByString());
+            }
+
+            if (weatherDescriptionLabel != null) {
+                weatherDescriptionLabel.setText(helper.getWeatherDescription(weather.getWeatherDescriptionId()));
+            }
+
+            if (weatherIcon != null) {
+                weatherIcon.setImageResource(R.drawable.sun);
             }
         }
 

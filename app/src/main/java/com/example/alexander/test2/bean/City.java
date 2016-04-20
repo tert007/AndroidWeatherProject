@@ -1,6 +1,9 @@
 package com.example.alexander.test2.bean;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Alexander on 28.02.2016.
@@ -12,7 +15,7 @@ public class City {
     private double longitude;
 
     private List<Weather> weathers;
-    private long unixUpdateTime;
+    private long updateTime;
 
     public City(String name, String country ,double latitude, double longitude) {
         this.name = name;
@@ -49,7 +52,7 @@ public class City {
         if (this.getLongitude() != city.getLongitude() )
             return false;
 
-        if (this.getUnixUpdateTime() != city.getUnixUpdateTime() )
+        if (this.getUpdateTime() != city.getUpdateTime() )
             return false;
 
         int weatherCount = this.getForecast().size();
@@ -85,12 +88,22 @@ public class City {
         return weathers;
     }
 
-    public long getUnixUpdateTime() {
-        return unixUpdateTime;
+    public long getUpdateTime() {
+        return updateTime;
     }
 
-    public void setUnixUpdateTime(long unixUpdateTime) {
-        this.unixUpdateTime = unixUpdateTime;
+    public String getUpdateTimeByString() {
+        Date date = new Date(updateTime);
+
+        Locale locale = new Locale("ru");
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy hh:mm:ss", locale);
+
+        return sdf.format(date);
+    }
+
+    public void setUpdateTime(long updateTime) {
+        this.updateTime = updateTime;
     }
 
 }

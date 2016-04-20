@@ -1,11 +1,35 @@
 <resources>
     <string name="app_name">Погода</string>
-    <string name="place_settings">Местоположение</string>
-    <string name="add_new_place">Добавить новое место</string>
-    <string name="search">Поиск</string>
 
+    <string name="place_settings">Местоположение</string>
+
+    <string name="add_new_place">Добавить город</string>
+    <string name="search">Поиск</string>
     <string name="remove">Удалить</string>
     <string name="settings">Настройки</string>
 
     <string name="switch_text">Использовать текущее местоположение</string>
+
+    <string name="weather">Погода</string>
+    <string name="weather_week_forecast">Прогноз на неделю</string>
+
+    <string name="internet_connection_not_found">Нет подключения к интернету</string>
+    <string name="city_not_selected">Не выбран город</string>
+    <string name="first_time_city_not_selected">Для первого использования необходимо подключение к интернету</string>
+
+    <string name="saved_cities">Сохраненные города:</string>
+    <string name="saved_cities_not_found">Нет сохранённых городов</string>
+
+    <string name="search_result">Результаты поиска:</string>
+    <string name="cities_not_found">Ничего не найдено</string>
+
+    <string name="duplicate_city_save">Данный город уже сохранён</string>
+
+
+    <string name="humidity">Влажность воздуха:</string>
+    <string name="wind_speed">Скорость ветра:</string>
+    <string name="metric_speed_scale">м/с</string>
+
+    <string name="update_time">Обновлено: </string>
+
 </resources>

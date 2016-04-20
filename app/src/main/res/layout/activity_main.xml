@@ -42,47 +42,104 @@
                         android:layout_height="match_parent"
                         android:fillViewport="true" >
 
-                        <LinearLayout
+                        <RelativeLayout
                             android:id="@+id/tab1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
 
-                            <TextView
-                                    android:id="@+id/cityNameLabel"
-                                    android:layout_marginTop="75dp"
-                                    android:textSize="30sp"
-                                    android:gravity="center"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@color/text_color" />
+                            <LinearLayout
+                                android:id="@+id/main_weather_info"
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentTop="true"
+                                android:paddingTop="35dp">
 
-                                <TextView
-                                    android:id="@+id/countryNameLabel"
+                                <ImageView
+                                    android:id="@+id/weatherIcon"
+                                    android:src="@drawable/sun"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:textSize="20sp"
-                                    android:textColor="@color/text_color"
-                                    />
+                                    android:layout_height="wrap_content" />
 
-                                <TextView
-                                    android:id="@+id/degreesLabel"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:textSize="20sp"
-                                    android:gravity="center"
-                                    android:textColor="@color/text_color"
-                                    />
+                                    <TextView
+                                        android:id="@+id/cityNameLabel"
+                                        android:gravity="center"
+                                        android:layout_height="wrap_content"
+                                        android:layout_width="match_parent"
+                                        android:text="Минск"
+                                        android:textSize="30sp"
+                                        android:textColor="@color/text_color" />
+
+                                    <TextView
+                                        android:id="@+id/countryNameLabel"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Беларусь"
+                                        android:gravity="center"
+                                        android:textSize="16sp"
+                                        android:textColor="@color/text_color" />
+
+                                    <TextView
+                                        android:id="@+id/degreesLabel"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="36sp"
+                                        android:text="36 С"
+                                        android:gravity="center"
+                                        android:textColor="@color/text_color" />
 
                                 <TextView
                                     android:id="@+id/weatherDescriptionLabel"
+                                    android:layout_below="@id/main_weather_info"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:padding="@dimen/padding"
                                     android:textSize="22sp"
+                                    android:text="Ясно"
                                     android:gravity="center"
                                     android:textColor="@color/text_color"/>
-                        </LinearLayout>
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/humidityLabel"
+                                android:layout_height="wrap_content"
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="bottom"
+                                android:layout_below="@id/main_weather_info"
+                                android:textSize="18sp"
+                                android:layout_centerHorizontal="true"
+                                android:text="Влажность воздуха: 72%"
+                                android:paddingTop="@dimen/padding"
+
+                                android:textColor="@color/text_color"
+                                android:gravity="center"/>
+
+                            <TextView
+                                android:id="@+id/windSpeedLabel"
+                                android:layout_height="wrap_content"
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="bottom"
+                                android:layout_below="@id/humidityLabel"
+                                android:layout_alignLeft="@+id/humidityLabel"
+                                android:textSize="18sp"
+                                android:text="Скорость ветра: 22 м/c"
+                                android:paddingTop="@dimen/padding"
+                                android:textColor="@color/text_color"
+                                android:gravity="center"/>
+
+                            <TextView
+                                android:id="@+id/updateTimeLabel"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Обновлено: 22.22.22 12.12"
+                                android:textSize="14sp"
+                                android:textColor="@color/text_color"
+                                android:gravity="end"
+                                android:padding="@dimen/padding"
+                                android:layout_alignParentBottom="true"/>
+                        </RelativeLayout>
+
                     </ScrollView>
                 </android.support.v4.widget.SwipeRefreshLayout>
 
@@ -107,7 +164,6 @@
                     </android.support.v4.widget.SwipeRefreshLayout>
 
                 </LinearLayout>
-
             </FrameLayout>
         </LinearLayout>
     </TabHost>

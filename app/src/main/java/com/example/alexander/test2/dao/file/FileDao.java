@@ -57,7 +57,7 @@ public class FileDao {
 
 
             City city = new City(name, country, latitude, longitude);
-            city.setUnixUpdateTime(updateTime);
+            city.setUpdateTime(updateTime);
             city.setForecast(forecast);
 
             return city;
@@ -75,7 +75,7 @@ public class FileDao {
             cityObject.put("country", city.getCountry());
             cityObject.put("latitude", city.getLatitude());
             cityObject.put("longitude", city.getLongitude());
-            cityObject.put("time", city.getUnixUpdateTime());
+            cityObject.put("time", city.getUpdateTime());
 
             JSONArray forecast = new JSONArray();
 

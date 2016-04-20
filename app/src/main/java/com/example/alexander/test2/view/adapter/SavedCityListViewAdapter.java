@@ -4,9 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Checkable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,9 +19,6 @@ import java.util.List;
  * Created by Alexander on 16.03.2016.
  */
 public class SavedCityListViewAdapter extends ArrayAdapter<City> {
-
-    private boolean haveFavorite;
-    private View favoriteView;
 
     private static City favoriteCity;
 
@@ -59,12 +54,16 @@ public class SavedCityListViewAdapter extends ArrayAdapter<City> {
             ImageView removeItem = (ImageView) view.findViewById(R.id.remove_city_item);
             final ImageView favoriteItem = (ImageView) view.findViewById(R.id.favorite_city_item);
 
-            if (city.equals(favoriteCity)){
-                favoriteItem.setSelected(true);
-            }
+            favoriteItem.setSelected(false);
 
             cityNameItem.setText(city.getName());
             countryNameItem.setText(city.getCountry());
+
+            if (city.equals(favoriteCity)){
+                favoriteItem.setSelected(true);
+            } else {
+                favoriteItem.setSelected(false);
+            }
 
             removeItem.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -77,34 +76,15 @@ public class SavedCityListViewAdapter extends ArrayAdapter<City> {
                 @Override
                 public void onClick(View v) {
 
-                    if (haveFavorite) {
-                        if (favoriteView == v){
-                            favoriteView.setSelected(false);
-                            haveFavorite = false;
-
-                            favoriteCity = null;
-
-                            favoriteButtonDelegate.favoriteCityOnClickListener(null);
-
-                        } else {
-                            favoriteView.setSelected(false);
-                            favoriteView = v;
-                            favoriteView.setSelected(true);
-
-                            favoriteCity = city;
-
-                            favoriteButtonDelegate.favoriteCityOnClickListener(city);
-                        }
-                    } else  {
-                        favoriteView = v;
-                        favoriteView.setSelected(true);
-                        haveFavorite = true;
-
+                    if (city.equals(favoriteCity)) {
+                        favoriteCity = null;
+                    } else {
                         favoriteCity = city;
-
-                        favoriteButtonDelegate.favoriteCityOnClickListener(city);
                     }
+
+                    favoriteButtonDelegate.favoriteCityOnClickListener(favoriteCity);
                 }
+
             });
 
         }

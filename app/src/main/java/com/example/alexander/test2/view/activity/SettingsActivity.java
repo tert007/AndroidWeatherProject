@@ -21,7 +21,7 @@ import com.example.alexander.test2.R;
 import com.example.alexander.test2.bean.City;
 import com.example.alexander.test2.dao.DaoException;
 import com.example.alexander.test2.dao.file.FileDao;
-import com.example.alexander.test2.service.ConnectionTracker;
+import com.example.alexander.test2.service.ConnectionTracker1;
 import com.example.alexander.test2.service.SearchCityAsyncTaskResponce;
 import com.example.alexander.test2.service.SearchCitiesAsyncTask;
 import com.example.alexander.test2.service.UpdateForecastAsyncTask;
@@ -56,7 +56,7 @@ public class SettingsActivity extends AppCompatActivity implements SearchView.On
     List<City> searchCity;
     City favoriteCity;
 
-    ConnectionTracker connectionTracker;
+    ConnectionTracker1 connectionTracker;
 
     SearchCityListViewAdapter searchCityAdapter;
     SavedCityListViewAdapter savedCityAdapter;
@@ -84,7 +84,7 @@ public class SettingsActivity extends AppCompatActivity implements SearchView.On
         switchCompat = (SwitchCompat) findViewById(R.id.place_switch);
         switchCompat.setOnCheckedChangeListener(this);
 
-        connectionTracker = new ConnectionTracker(getApplicationContext());
+        connectionTracker = new ConnectionTracker1(getApplicationContext());
 
         try {
             savedCity = FileDao.loadCities(getApplicationContext());
@@ -98,7 +98,7 @@ public class SettingsActivity extends AppCompatActivity implements SearchView.On
             savedCityListUpdate();
 
         } catch (DaoException ex){
-            savedCityStatusTextView.setText("Ошибка: " + ex.getMessage());
+
         }
     }
 
@@ -153,7 +153,7 @@ public class SettingsActivity extends AppCompatActivity implements SearchView.On
             searchCitiesAsyncTask.delegate = this;
             searchCitiesAsyncTask.execute(query);
         } else {
-            Snackbar.make(findViewById(R.id.settings_layout), "Нет подключения к интернету", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(findViewById(R.id.settings_layout), getString(R.string.internet_connection_not_found), Snackbar.LENGTH_LONG).show();
         }
 
         return false;
@@ -170,11 +170,11 @@ public class SettingsActivity extends AppCompatActivity implements SearchView.On
     @Override
     public void searchCityAsyncTaskFinish(List<City> cities) {
         if (cities == null || cities.isEmpty()) {
-            searchCityStatusTextView.setText("Ничего не найдено");
+            searchCityStatusTextView.setText(getString(R.string.cities_not_found));
         } else {
             searchCity = cities;
 
-            searchCityStatusTextView.setText("Результаты поиска:");
+            searchCityStatusTextView.setText(getString(R.string.search_result));
             searchCityAdapter = new SearchCityListViewAdapter(getApplicationContext(), R.id.search_city_list_view, cities);
             searchCityAdapter.addButtonDelegate = this;
             searchCityListView.setAdapter(searchCityAdapter);
@@ -183,10 +183,10 @@ public class SettingsActivity extends AppCompatActivity implements SearchView.On
 
     private void savedCityListUpdate() {
         if (savedCity == null || savedCity.isEmpty()) {
-            savedCityStatusTextView.setText("Нет сохранённых городов");
+            savedCityStatusTextView.setText(getString(R.string.saved_cities_not_found));
             savedCityListView.setAdapter(null);
         } else{
-            savedCityStatusTextView.setText("Сохранённые города:");
+            savedCityStatusTextView.setText(getString(R.string.saved_cities));
             savedCityAdapter = new SavedCityListViewAdapter(getApplicationContext(), R.id.saved_city_list_view, savedCity);
             savedCityAdapter.removeButtonDelegate = this;
             savedCityAdapter.favoriteButtonDelegate = this;
@@ -197,7 +197,7 @@ public class SettingsActivity extends AppCompatActivity implements SearchView.On
     @Override
     public void addCityOnClickListener(City city) {
         if (savedCity.contains(city)){
-            Snackbar.make(findViewById(R.id.settings_layout), "Такой городу уже есть", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(findViewById(R.id.settings_layout), getString(R.string.duplicate_city_save), Snackbar.LENGTH_LONG).show();
         } else {
             updateForecastAsyncTask = new UpdateForecastAsyncTask();
             updateForecastAsyncTask.delegate = this;
@@ -208,11 +208,19 @@ public class SettingsActivity extends AppCompatActivity implements SearchView.On
     @Override
     public void favoriteCityOnClickListener(City city) {
         favoriteCity = city;
+        savedCityAdapter.removeButtonDelegate = this;
+        savedCityAdapter.favoriteButtonDelegate = this;
+        savedCityListView.setAdapter(savedCityAdapter);
     }
 
     @Override
     public void removeCityOnClickListener(City city) {
         savedCity.remove(city);
+
+        if (city.equals(favoriteCity)){
+            favoriteCity = null;
+        }
+
         savedCityListUpdate();
     }
 

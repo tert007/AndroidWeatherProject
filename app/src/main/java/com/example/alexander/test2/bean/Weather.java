@@ -14,7 +14,6 @@ public class Weather {
     private double windSpeed;
     private long unixTime;
 
-
     public int getWeatherDescriptionId() {
         return weatherDescriptionId;
     }
